@@ -5,6 +5,8 @@ export default function MatchListItems(){
     let state: any = useMatchesState()
     const {matches, isLoading , isError, errorMessage} = state
     console.log(matches)
+    console.log(matches.location)
+
     if (isLoading && matches.length ===0){
         return <span>Loading ...</span>
     }
@@ -13,20 +15,22 @@ export default function MatchListItems(){
     }
     return (
         <div className="flex gap-3 w-full p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {matches && matches.length > 0 ? (
         matches.map((match:any) => 
           match.isRunning === true &&(
-          <div key={match.id} className="border rounded-lg shadow-lg p-4">
-            <h5 className="font-semibold">{match.name}</h5>
-            <p className="text-gray-500">{match.sportName}</p>
+          <div key={match.id} className="border border-gray-300 bg-white p-4 rounded-md overflow-hidden w-80 h-40 shadow-lg p-4">
+            <h5 className="font-semibold">{match.sportName}</h5>
+            <p className="text-gray-700">{match.name.split('at')[0]}</p>
             <div className="mt-4">
-              <button className="text-blue-600 hover:underline">More Details</button>
+              <button className="text-blue-600 hover:underline">get more details</button>
             </div>
           </div>
         ))
       ) : (
         <span>No matches available.</span>
       )}
+          </div>
         </div>
       );
 }

@@ -4,6 +4,7 @@ import { Fragment, useContext } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../../assets/images/Logo.jpeg"
 
 const userNavigation = [
   { name: 'Sign in', href: '#' },
@@ -24,12 +25,15 @@ const Appbar = () => {
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <img
-                    className="h-8"
-                    // src={Logo}
+                    className="h-14 rounded-full"
+                    src={Logo}
                     alt="Sports News"
                   />
                 </div>
               </div>
+              <div className="hidden md:block flex items-center justify-center">
+                <h1 className="text-2xl font-bold text-gray-800">Sports News</h1>
+                </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <Menu as="div" className="relative ml-3">
