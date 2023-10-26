@@ -5,9 +5,6 @@ interface Match {
     sportName:string;
     endsAt:string;
     isRunning:boolean;
-    score:{
-      [team:string]:string
-    }
     teams:[]
   }
   

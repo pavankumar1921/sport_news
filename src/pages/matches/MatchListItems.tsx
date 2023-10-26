@@ -28,7 +28,6 @@ export default function MatchListItems(){
             <p className="text-gray-700">{match.name.split('at')[0]}</p>
             <div className="mt-4">
               <div>{fullMatchDetails(match.id)}</div>
-              <button className="text-blue-600 hover:underline">get more details</button>
             </div>
           </div>
         ))
