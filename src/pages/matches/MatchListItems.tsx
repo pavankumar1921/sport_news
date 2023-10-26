@@ -1,11 +1,15 @@
 import { useMatchesDispatch,useMatchesState } from "../../context/matches/context";
 import React from "react";
+import MatchDetails from "./MatchDetails";
 
 export default function MatchListItems(){
     let state: any = useMatchesState()
     const {matches, isLoading , isError, errorMessage} = state
     console.log(matches)
-    console.log(matches.location)
+
+    const fullMatchDetails = (id:number) =>{
+      return <MatchDetails id={id}/>
+    }
 
     if (isLoading && matches.length ===0){
         return <span>Loading ...</span>
@@ -23,6 +27,7 @@ export default function MatchListItems(){
             <h5 className="font-semibold">{match.sportName}</h5>
             <p className="text-gray-700">{match.name.split('at')[0]}</p>
             <div className="mt-4">
+              <div>{fullMatchDetails(match.id)}</div>
               <button className="text-blue-600 hover:underline">get more details</button>
             </div>
           </div>
