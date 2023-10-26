@@ -1,5 +1,6 @@
 import { useArticlesState } from "../../context/articles/context";
 import React, { useState, useEffect } from "react";
+import ArticleDetails from "./ArticleDetails";
 
 export default function ArticleListItems() {
   const state = useArticlesState();
@@ -16,6 +17,9 @@ const [sortOrder,setSortOrder] = useState("date")
     }
   }, [articles]);
 
+  const fullArticleDetails = (id:number) =>{
+    return <ArticleDetails id={id} />
+  }
    const handleRugbyButtonClick = () => {
     setSelectedSport("Rugby");
   };
@@ -94,6 +98,7 @@ const [sortOrder,setSortOrder] = useState("date")
                   day: "numeric",
                 })}</h3>
                 <p>{article.summary}</p>
+                <div>{fullArticleDetails(article.id)}</div>
               </div>
             ))
         ) : (

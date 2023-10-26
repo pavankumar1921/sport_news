@@ -1,5 +1,4 @@
 import React ,{useEffect,useState} from "react";
-// import { matchDetails } from "../../context/matches/action";
 import { useMatchesDispatch } from "../../context/matches/context";
 import { API_ENDPOINT } from "../../config/constants";
 
@@ -22,7 +21,6 @@ const MatchDetails: React.FC<{id:number}> = ({id}) =>{
   const [matchData,setMatchData] = useState<completeMatch|null>(null)
   const [isOpen,setIsOpen] = useState(false)
   const [isFetching,setIsFetching] = useState(false)
-  // const dispatch = useMatchesDispatch()
 
   const completeMatchDetails = async()=> {
     setIsFetching(true)
