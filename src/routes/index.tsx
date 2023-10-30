@@ -6,6 +6,7 @@ import AccountLayout from "../layouts/account";
 import Signin from "../pages/signin";
 import Signup from "../pages/signup";
 import FirstPage from "../pages/FirstPage";
+import Logout from "../pages/logout";
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     {
         path:"/homepage",
         element: <HomePage/>
+    },
+    {
+        path:"/logout",
+        element: <Logout/>
     },
     {
         path:"account",

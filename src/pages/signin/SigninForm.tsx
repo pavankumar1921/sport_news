@@ -45,8 +45,8 @@ const SigninForm: React.FC = () => {
       </div>
       <div>
         <label className="block text-gray-700 font-semibold mb-2">Password:</label>
-        <input type="password" name="password" id="password" {...register("email", { required: true })} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
-        {errors.email && (
+        <input type="password" name="password" id="password" {...register("password", { required: true })} className="w-full border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-blue-500 focus:shadow-outline-blue" />
+        {errors.password && (
           <span> Password is required</span>
         )}
       </div>
