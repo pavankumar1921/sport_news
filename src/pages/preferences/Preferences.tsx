@@ -6,14 +6,14 @@ import { Dialog,Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
 interface PreferencesState {
-  choice: {id:string; name:string}[]
+  choice: {id:string; name:string;category:string}[],
 }
 
 const Preferences = () => {
   const navigate = useNavigate();
 
   const [preferences, setPreferences] = useState<PreferencesState>({
-    choice: [],
+    choice: [] ,
   });
   const [isOpen, setIsOpen] = useState(false);
   const [sportsData, setSportsData] = useState<any[]>([]);
@@ -47,30 +47,35 @@ const Preferences = () => {
   };
 
   const handleModalInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
+    const { name,checked } = event.target;
+    const category = event.target.getAttribute("data-category") as "sports" | "teams";
     const selectedItem = {
       id: event.target.id,
       name: event.target.name,
     };
+    setPreferences((prevPref) => {
+      const selectedItem = {
+        id: event.target.id,
+        name: event.target.name,
+        category,
+      };
   
-    setPreferences((prevSelectedPreferences) => {
+      let updatedChoices = [];
+      
       if (checked) {
-        return {
-          ...prevSelectedPreferences,
-          choice: [...prevSelectedPreferences.choice, selectedItem],
-        };
+        updatedChoices = [...prevPref.choice, selectedItem];
       } else {
-        return {
-          ...prevSelectedPreferences,
-          choice: prevSelectedPreferences.choice.filter(
-            (item) => item.id !== selectedItem.id
-          ),
-        };
+        updatedChoices = prevPref.choice.filter(
+          (item) =>
+            item.id !== selectedItem.id || item.category !== selectedItem.category
+        );
       }
+      return {
+        choice: updatedChoices,
+      };
     });
   };
   
-
   const handleSavePreferences = async () => {
     const authToken = localStorage.getItem("authToken");
     try {
@@ -81,7 +86,7 @@ const Preferences = () => {
           Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({
-          userPreferences: preferences,
+          preferences: preferences,
         }),
       });
   
@@ -96,7 +101,6 @@ const Preferences = () => {
       console.error("Error saving preferences:", error);
     }
     navigate("/homepage");
-    window.location.reload();
   };
   
 
@@ -144,7 +148,7 @@ const Preferences = () => {
             <Dialog.Panel className="w-full max-w-md transform overflow-hidden bg-white text-white p-6 text-left align-middle shadow-xl transition-all rounded-lg">
               <Dialog.Title
                 as="h3"
-                className="text-xl font-bold text-white leading-6 text-black p-2 text-center"
+                className="text-xl font-bold text-black leading-6 text-black p-2 text-center"
               >
                 Choose Favorites
               </Dialog.Title>
@@ -158,9 +162,6 @@ const Preferences = () => {
                             id={sport.id}
                             data-category="sports"
                             onChange={handleModalInputChange}
-                            checked={preferences.choice.some(
-                            (item) => item.id === sport.id
-                            )}
                         />
                         <span className="font-bold text-black"> {sport.name}</span>
                     </div>
@@ -176,9 +177,6 @@ const Preferences = () => {
                     id={team.id}
                     data-category="teams"
                     onChange={handleModalInputChange}
-                    checked={preferences.choice.some(
-                        (item) => item.id === team.id
-                    )}
                     />
                     <span className="font-bold text-black"> {team.name}</span>
                 </div>
