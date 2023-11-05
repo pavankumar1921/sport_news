@@ -7,6 +7,7 @@ import Signin from "../pages/signin";
 import Signup from "../pages/signup";
 import FirstPage from "../pages/FirstPage";
 import Logout from "../pages/logout";
+import NotFound from "../pages/NotFound";
 
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     {
         path:"/users/sign_in/",
         element: <Signin/>
+    },
+    {
+    path:"*",
+    element:<NotFound/>
     },
     {
         path:"/homepage",
