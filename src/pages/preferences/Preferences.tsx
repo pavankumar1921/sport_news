@@ -60,16 +60,9 @@ const Preferences = () => {
         category,
       };
   
-      let updatedChoices = [];
-      
-      if (checked) {
-        updatedChoices = [...prevPref.choice, selectedItem];
-      } else {
-        updatedChoices = prevPref.choice.filter(
-          (item) =>
-            item.id !== selectedItem.id || item.category !== selectedItem.category
-        );
-      }
+      let updatedChoices = checked
+      ? [...prevPref.choice.filter(item => item.id !== selectedItem.id), selectedItem]
+      : prevPref.choice.filter(item => item.id !== selectedItem.id);
       return {
         choice: updatedChoices,
       };
