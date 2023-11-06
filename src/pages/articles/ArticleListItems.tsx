@@ -105,16 +105,6 @@ export default function ArticleListItems() {
                 {sport}
               </button>
             ))}
-            <button
-              onClick={handleRugbyButtonClick}
-              className={`px-4 py-2 rounded border ${
-                selectedSport === "Rugby"
-                  ? "border-green-500"
-                  : "border-gray-300"
-              } ${selectedSport === "Rugby" ? "bg-green-100" : "bg-gray-100"}`}
-            >
-              Rugby
-            </button>
             <label>Sort by:</label>
             <select
               value={sortOrder}
