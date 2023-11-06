@@ -33,11 +33,18 @@ export default function Favourites() {
     plays: string;
   };
 
+  interface PreferencesState {
+    choice: { id: string; name: string; category: string }[];
+  }
+
   const [sportsData, setSportsData] = useState<Sports[]>([]);
   const [selectedSport, setSelectedSport] = useState<number | null>(null);
 
   const [teamsData, setTeamsData] = useState<Teams[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
+
+  const [preferences,setPreferences] = useState<PreferencesState>({choice:[]})
+  const user =localStorage.getItem("authToken")
 
   useEffect(() => {
     const fetchSportsData = async () => {
@@ -71,6 +78,25 @@ export default function Favourites() {
       fetchTeams(dispatchTeams);
     }
   });
+
+  useEffect(() => {
+    const fetchPreferences = async () => {
+      const authToken = localStorage.getItem("authToken");
+      if (authToken) {
+        const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        const data = await response.json();
+        setPreferences(data.preferences);
+        console.log("fetched", data.preferences);
+      }
+    };
+    fetchPreferences();
+  }, []);
 
   const selectSport = (id: number | null) => {
     setSelectedSport(id);
