@@ -11,6 +11,7 @@ const HomePage = ( ) =>{
             <div className="flex flex-row">
                 <Matches/>
             </div>
+            <hr/>
             <div className="grid grid-cols-5">
                 <div className="col-start-1 col-span-3">
                     <Articles/>

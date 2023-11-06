@@ -1,13 +1,22 @@
 import { useArticlesState } from "../../context/articles/context";
 import React, { useState, useEffect } from "react";
 import ArticleDetails from "./ArticleDetails";
+import { API_ENDPOINT } from "../../config/constants";
 
 export default function ArticleListItems() {
   const state = useArticlesState();
+
+  interface PreferencesState {
+    choice: { id: string; name: string; category: string }[];
+  }
+
   const { articles, isLoading, isError, errorMessage } = state;
   const [selectedSport, setSelectedSport] = useState("All");
   let [sports, setSports] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState("date");
+  const [preferences, setPreferences] = useState<PreferencesState>({
+    choice: [],
+  });
 
   useEffect(() => {
     if (articles) {
@@ -19,6 +28,26 @@ export default function ArticleListItems() {
     }
   }, [articles]);
 
+  useEffect(() => {
+    const fetchPreferences = async () => {
+      const authToken = localStorage.getItem("authToken");
+      if (authToken) {
+        const response = await fetch(`${API_ENDPOINT}/user/preferences`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        const data = await response.json();
+        setPreferences(data.preferences);
+        console.log("fetched", data.preferences);
+      }
+    };
+    fetchPreferences();
+  }, []);
+
+  const user = localStorage.getItem("authToken");
   const fullArticleDetails = (id: number) => {
     return <ArticleDetails id={id} />;
   };
@@ -48,84 +77,235 @@ export default function ArticleListItems() {
       }
     });
   return (
-    <div className="w-full p-4">
-      <div className="mb-4">
-        <label>Filter by Sport: </label>
-        <div className="space-x-4">
-          <button
-            onClick={() => setSelectedSport("All")}
-            className={`px-4 py-2 rounded border ${
-              selectedSport === "All" ? "border-green-500" : "border-gray-300"
-            } ${selectedSport === "All" ? "bg-green-100" : "bg-gray-100"}`}
-          >
-            All
-          </button>
-          {sports.map((sport, index) => (
+    <>
+      {user && preferences.choice && preferences.choice.length > 0 ? (
+        <>
+        <div className="mb-4">
+          <label>Filter by Sport: </label>
+          <div className="space-x-4">
             <button
-              key={index}
-              onClick={() => setSelectedSport(sport)}
+              onClick={() => setSelectedSport("All")}
               className={`px-4 py-2 rounded border ${
-                selectedSport === sport ? "border-green-500" : "border-gray-300"
-              } ${selectedSport === sport ? "bg-green-100" : "bg-gray-100"}`}
+                selectedSport === "All" ? "border-green-500" : "border-gray-300"
+              } ${selectedSport === "All" ? "bg-green-100" : "bg-gray-100"}`}
             >
-              {sport}
+              All
             </button>
-          ))}
-          <button
-            onClick={handleRugbyButtonClick}
-            className={`px-4 py-2 rounded border ${
-              selectedSport === "Rugby" ? "border-green-500" : "border-gray-300"
-            } ${selectedSport === "Rugby" ? "bg-green-100" : "bg-gray-100"}`}
-          >
-            Rugby
-          </button>
-          <label>Sort by:</label>
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="px-4 py-2 rounded border border-gray-300"
-          >
-            <option value="date">Date</option>
-            <option value="title">Title</option>
-          </select>
+            {sports.map((sport, index) => 
+            preferences.choice.some(item => item.name === sport) &&(
+              <button
+                key={index}
+                onClick={() => setSelectedSport(sport)}
+                className={`px-4 py-2 rounded border ${
+                  selectedSport === sport
+                    ? "border-green-500"
+                    : "border-gray-300"
+                } ${selectedSport === sport ? "bg-green-100" : "bg-gray-100"}`}
+              >
+                {sport}
+              </button>
+            ))}
+            <button
+              onClick={handleRugbyButtonClick}
+              className={`px-4 py-2 rounded border ${
+                selectedSport === "Rugby"
+                  ? "border-green-500"
+                  : "border-gray-300"
+              } ${selectedSport === "Rugby" ? "bg-green-100" : "bg-gray-100"}`}
+            >
+              Rugby
+            </button>
+            <label>Sort by:</label>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="px-4 py-2 rounded border border-gray-300"
+            >
+              <option value="date">Date</option>
+              <option value="title">Title</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-col gap-3">
-        {filteredArticles && filteredArticles.length > 0 ? (
-          filteredArticles
-            .filter(
-              (article: any) =>
-                selectedSport === "All" || article.sport.name === selectedSport
-            )
-            .map((article: any) => (
-              <div key={article.id} className="border rounded-lg shadow-lg p-4">
-                <div className="flex">
-                  <div className="w-2/3 pr-4">
-                    <h5 className="font-semibold">{article.sport.name}</h5>
-                    <h4 className="text-gray-500">{article.title}</h4>
-                    <h3>
-                      {new Date(article.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </h3>
-                    <p>{article.summary}</p>
-                    <div>{fullArticleDetails(article.id)}</div>
-                  </div>
-                  <div className="w-1/3">
-                    <img
-                      src={article.thumbnail}
-                      className="w-40 h-40 mx-auto rounded"
-                    />
+        {preferences && preferences.choice.some(item=>item.category === 'sports') ?(
+          <div className="flex flex-col gap-3">
+          {filteredArticles && filteredArticles.length > 0 ? (
+            filteredArticles
+              .filter(
+                (article: any) =>
+                  (selectedSport === "All" ||
+                  article.sport.name === selectedSport) && 
+                  (preferences.choice.some((item) => item.category === 'sports') && preferences.choice.some((item) => item.name === article.sport.name))
+              )
+              .map((article: any) => (
+                <div
+                  key={article.id}
+                  className="border rounded-lg shadow-lg p-4"
+                >
+                  <div className="flex">
+                    <div className="w-2/3 pr-4">
+                      <h5 className="font-semibold">{article.sport.name}</h5>
+                      <h4 className="text-gray-500">{article.title}</h4>
+                      <h3>
+                        {new Date(article.date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </h3>
+                      <p>{article.summary}</p>
+                      <div>{fullArticleDetails(article.id)}</div>
+                    </div>
+                    <div className="w-1/3">
+                      <img
+                        src={article.thumbnail}
+                        className="w-40 h-40 mx-auto rounded"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
-        ) : (
-          <span>No articles available for the selected sport.</span>
+              ))
+          ) : (
+            <span>No articles available for the selected sport.</span>
+          )}
+        </div>
+        ):(
+          <div className="flex flex-col gap-3">
+            {filteredArticles && filteredArticles.length > 0 ? (
+              filteredArticles
+                .filter(
+                  (article: any) =>
+                    selectedSport === "All" ||
+                    article.sport.name === selectedSport
+                )
+                .map((article: any) => (
+                  <div
+                    key={article.id}
+                    className="border rounded-lg shadow-lg p-4"
+                  >
+                    <div className="flex">
+                      <div className="w-2/3 pr-4">
+                        <h5 className="font-semibold">{article.sport.name}</h5>
+                        <h4 className="text-gray-500">{article.title}</h4>
+                        <h3>
+                          {new Date(article.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </h3>
+                        <p>{article.summary}</p>
+                        <div>{fullArticleDetails(article.id)}</div>
+                      </div>
+                      <div className="w-1/3">
+                        <img
+                          src={article.thumbnail}
+                          className="w-40 h-40 mx-auto rounded"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))
+            ) : (
+              <span>No articles available for the selected sport.</span>
+            )}
+          </div>
         )}
-      </div>
-    </div>
+        </>
+      ) : (
+        <div className="w-full p-4">
+          <div className="mb-4">
+            <label>Filter by Sport: </label>
+            <div className="space-x-4">
+              <button
+                onClick={() => setSelectedSport("All")}
+                className={`px-4 py-2 rounded border ${
+                  selectedSport === "All"
+                    ? "border-green-500"
+                    : "border-gray-300"
+                } ${selectedSport === "All" ? "bg-green-100" : "bg-gray-100"}`}
+              >
+                All
+              </button>
+              {sports.map((sport, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedSport(sport)}
+                  className={`px-4 py-2 rounded border ${
+                    selectedSport === sport
+                      ? "border-green-500"
+                      : "border-gray-300"
+                  } ${
+                    selectedSport === sport ? "bg-green-100" : "bg-gray-100"
+                  }`}
+                >
+                  {sport}
+                </button>
+              ))}
+              <button
+                onClick={handleRugbyButtonClick}
+                className={`px-4 py-2 rounded border ${
+                  selectedSport === "Rugby"
+                    ? "border-green-500"
+                    : "border-gray-300"
+                } ${
+                  selectedSport === "Rugby" ? "bg-green-100" : "bg-gray-100"
+                }`}
+              >
+                Rugby
+              </button>
+              <label>Sort by:</label>
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                className="px-4 py-2 rounded border border-gray-300"
+              >
+                <option value="date">Date</option>
+                <option value="title">Title</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            {filteredArticles && filteredArticles.length > 0 ? (
+              filteredArticles
+                .filter(
+                  (article: any) =>
+                    selectedSport === "All" ||
+                    article.sport.name === selectedSport
+                )
+                .map((article: any) => (
+                  <div
+                    key={article.id}
+                    className="border rounded-lg shadow-lg p-4"
+                  >
+                    <div className="flex">
+                      <div className="w-2/3 pr-4">
+                        <h5 className="font-semibold">{article.sport.name}</h5>
+                        <h4 className="text-gray-500">{article.title}</h4>
+                        <h3>
+                          {new Date(article.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </h3>
+                        <p>{article.summary}</p>
+                        <div>{fullArticleDetails(article.id)}</div>
+                      </div>
+                      <div className="w-1/3">
+                        <img
+                          src={article.thumbnail}
+                          className="w-40 h-40 mx-auto rounded"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))
+            ) : (
+              <span>No articles available for the selected sport.</span>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
