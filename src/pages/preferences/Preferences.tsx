@@ -94,6 +94,7 @@ const Preferences = () => {
       console.error("Error saving preferences:", error);
     }
     navigate("/homepage");
+    window.location.reload()
   };
   
 

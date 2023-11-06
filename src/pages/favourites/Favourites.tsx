@@ -43,8 +43,10 @@ export default function Favourites() {
   const [teamsData, setTeamsData] = useState<Teams[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
 
-  const [preferences,setPreferences] = useState<PreferencesState>({choice:[]})
-  const user =localStorage.getItem("authToken")
+  const [preferences, setPreferences] = useState<PreferencesState>({
+    choice: [],
+  });
+  const user = localStorage.getItem("authToken");
 
   useEffect(() => {
     const fetchSportsData = async () => {
@@ -122,63 +124,130 @@ export default function Favourites() {
 
   return (
     <>
-      <div>
-        <div className="flex flex-col">
-          <p>Favourites</p>
-          <div className="flex space-x-4">
-            <select
-              name="sports"
-              id="sports"
-              onChange={(e) =>
-                selectSport(parseInt(e.target.value, 10) || null)
-              }
-              className="p-2 border rounded-lg"
-            >
-              <option value="">Select sport</option>
-              {sportsData.map((sport: any) => (
-                <option key={sport.id} value={sport.id}>
-                  {sport.name}
-                </option>
-              ))}
-            </select>
-            {teamsData && (
+      {user && preferences.choice && preferences.choice.length > 0 ? (
+        <div>
+          <div className="flex flex-col">
+            <p>Favourites</p>
+            <div className="flex space-x-4">
               <select
-                name="teams"
-                id="teams"
+                name="sports"
+                id="sports"
                 onChange={(e) =>
-                  selectTeam(parseInt(e.target.value, 10) || null)
+                  selectSport(parseInt(e.target.value, 10) || null)
                 }
                 className="p-2 border rounded-lg"
               >
-                <option value="">Select team</option>
-                {teamsData
-                  .filter(
-                    (team) =>
-                      selectedSport === null ||
-                      sportsData.find((sport) => sport.id === selectedSport)
-                        ?.name === team.plays
-                  )
-                  .map((team: any) => (
-                    <option key={team.id} value={team.id}>
-                      {team.name}
-                    </option>
-                  ))}
+                <option value="">Select sport</option>
+                {sportsData.map((sport: any) => 
+                preferences.choice.some((item) => item.category === 'sports') &&
+                preferences.choice.some((item) => item.name === sport.name) 
+                &&
+                (
+                  <option key={sport.id} value={sport.id}>
+                    {sport.name}
+                  </option>
+                ))}
               </select>
-            )}
+              {teamsData && (
+                <select
+                  name="teams"
+                  id="teams"
+                  onChange={(e) =>
+                    selectTeam(parseInt(e.target.value, 10) || null)
+                  }
+                  className="p-2 border rounded-lg">
+                  <option value="">Select team</option>
+                  {teamsData
+                    .filter(
+                      (team) =>
+                        selectedSport === null ||
+                        sportsData.find((sport) => sport.id === selectedSport)
+                        ?.name === team.plays
+                    )
+                    .map((team: any) =>
+                    preferences.choice.some((item) => item.category === 'teams') &&
+                    preferences.choice.some((item) => item.name === team.name) 
+                    &&
+                    (
+                      <option key={team.id} value={team.id}>
+                        {team.name}
+                      </option>
+                    ))}
+                </select>
+              )}
+            </div>
+          </div>
+          <br />
+          <div className="flex flex-col gap-3">
+            {filteredArticles.map((article: any) => (
+              <div key={article.id} className="border rounded-lg shadow-lg p-4">
+                <h2>{article.sport.name}</h2>
+                <h2>{article.title}</h2>
+                <p>{article.summary}</p>
+                <div>{fullArticleDetails(article.id)}</div>
+              </div>
+            ))}
           </div>
         </div>
-        <br />
-        <div className="flex flex-col gap-3">
-          {filteredArticles.map((article: any) => (
-            <div key={article.id} className="border rounded-lg shadow-lg p-4">
-              <h2>{article.sport.name}</h2>
-              <h2>{article.title}</h2>
-              <p>{article.summary}</p>
-              <div>{fullArticleDetails(article.id)}</div>
+      ) : (
+        <div>
+          <div className="flex flex-col">
+            <p>Favourites</p>
+            <div className="flex space-x-4">
+              <select
+                name="sports"
+                id="sports"
+                onChange={(e) =>
+                  selectSport(parseInt(e.target.value, 10) || null)
+                }
+                className="p-2 border rounded-lg"
+              >
+                <option value="">Select sport</option>
+                {sportsData.map((sport: any) => (
+                  <option key={sport.id} value={sport.id}>
+                    {sport.name}
+                  </option>
+                ))}
+              </select>
+              {teamsData && (
+                <select
+                  name="teams"
+                  id="teams"
+                  onChange={(e) =>
+                    selectTeam(parseInt(e.target.value, 10) || null)
+                  }
+                  className="p-2 border rounded-lg"
+                >
+                  <option value="">Select team</option>
+                  {teamsData
+                    .filter(
+                      (team) =>
+                        selectedSport === null ||
+                        sportsData.find((sport) => sport.id === selectedSport)
+                          ?.name === team.plays
+                    )
+                    .map((team: any) => (
+                      <option key={team.id} value={team.id}>
+                        {team.name}
+                      </option>
+                    ))}
+                </select>
+              )}
             </div>
-          ))}
+          </div>
+          <br />
+          <div className="flex flex-col gap-3">
+            {filteredArticles.map((article: any) => (
+              <div key={article.id} className="border rounded-lg shadow-lg p-4">
+                <h2>{article.sport.name}</h2>
+                <h2>{article.title}</h2>
+                <p>{article.summary}</p>
+                <div>{fullArticleDetails(article.id)}</div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
