@@ -77,9 +77,9 @@ export default function Favourites() {
 
   useEffect(() => {
     if (selectedTeam != null) {
-      fetchTeams(dispatchTeams);
+      fetchTeams(useTeamsDispatch);
     }
-  });
+  },[]);
 
   useEffect(() => {
     const fetchPreferences = async () => {
