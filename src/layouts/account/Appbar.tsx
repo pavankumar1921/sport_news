@@ -6,9 +6,11 @@ import { UserCircleIcon } from '@heroicons/react/24/outline';
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../../assets/images/Logo.jpeg"
 import Preferences from '../../pages/preferences/Preferences';
+import UpdatePassword from '../../pages/updatePassword/UpdatePassword';
 
 const loggedInUser = [
   { name: 'Sign out', href: '/logout' },
+  { name: 'Update Password', href: '/updatePassword'}
 ];
 
 const guestUser = [

@@ -8,6 +8,7 @@ import Signup from "../pages/signup";
 import FirstPage from "../pages/FirstPage";
 import Logout from "../pages/logout";
 import NotFound from "../pages/NotFound";
+import UpdatePassword from "../pages/updatePassword/UpdatePassword";
 
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
     {
         path:"/users/sign_in/",
         element: <Signin/>
+    },
+    {
+        path: "updatePassword",
+        element: <UpdatePassword/>
     },
     {
     path:"*",
