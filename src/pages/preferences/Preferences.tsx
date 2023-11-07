@@ -179,13 +179,13 @@ const Preferences = () => {
               </div>
               <div className="flex justify-center gap-2">
                 <button
-                className="text-white bg-teal-400 border border-black p-2 rounded"
+                className="hover:bg-green-600 text-black bg-green-300 border p-2 rounded-md"
                   onClick={handleSavePreferences}
                 >
                   Save
                 </button>
                 <button
-                className="text-white bg-red-400 border border-black p-2 rounded"
+                className="hover:bg-red-600 text-black bg-red-500 border p-2 rounded-md"
                   onClick={closeModal}
                 >
                   Cancel
