@@ -127,7 +127,10 @@ export default function Favourites() {
       {user && preferences.choice && preferences.choice.length > 0 ? (
         <div>
           <div className="flex flex-col">
-            <p>Favourites</p>
+            <div className="py-1">
+                <h2 className="font-medium">Favourites</h2>
+            </div>
+            
             <div className="flex space-x-4">
               <select
                 name="sports"
@@ -180,7 +183,7 @@ export default function Favourites() {
           <br />
           <div className="flex flex-col gap-3">
             {filteredArticles.map((article: any) => (
-              <div key={article.id} className="border rounded-lg shadow-lg p-4">
+              <div key={article.id} className="border rounded-lg bg-gray-100 shadow-lg p-4">
                 <h2>{article.sport.name}</h2>
                 <h2>{article.title}</h2>
                 <p>{article.summary}</p>

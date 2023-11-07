@@ -60,7 +60,7 @@ const Appbar = () => {
                   <Menu as="div" className="relative ml-3">
                     <div className='space-x-4 flex'>
                       <div>{user && <Preferences/>}</div>
-                      <Menu.Button className="rounded-full bg-white p-1 text-gray-400 hover:text-blue-600">
+                      <Menu.Button className="rounded-full bg-gray-200 p-1 text-black hover:text-sky-600">
                         <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
                       </Menu.Button>
                     </div>

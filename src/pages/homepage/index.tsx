@@ -12,8 +12,8 @@ const HomePage = ( ) =>{
                 <Matches/>
             </div>
             <hr/>
-            <div className="grid grid-cols-5">
-                <div className="col-start-1 col-span-3">
+            <div className="grid grid-cols-5 gap-4">
+                <div className="col-start-1 col-span-3 gap-2 px-3">
                     <Articles/>
                 </div>
                 <div className="col-start-4 col-span-2 py-5">
