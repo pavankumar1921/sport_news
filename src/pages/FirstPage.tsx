@@ -28,6 +28,9 @@ const FirstPage = () => {
           />
         </div>
         <div className="col-span-1 flex flex-col justify-center items-center p-4">
+        <div className="py-5">
+        <h1 className="py-2 font-medium text-xl">Welcome To Sports Center</h1>
+        </div>
           {!user ? (
             <div className="justify-center gap-4">
               <div>
