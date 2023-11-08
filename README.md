@@ -12,7 +12,7 @@
 + They want to access sports news and scores occasionally, and may have specific sports or teams they are interested in.
 
 ## Screenshorts
-![Screenshot (338)](https://github.com/pavankumar1921/sport_news/assets/104848621/e6f63a0b-8a74-4542-8e58-01bf16998998)
+![Screenshot (347)](https://github.com/pavankumar1921/sport_news/assets/104848621/8cf7c4c4-5a76-41ae-a63d-7dff6af0dc12)
 ![Screenshot (340)](https://github.com/pavankumar1921/sport_news/assets/104848621/8f79a5f5-92b8-45af-be93-1e9602411f82)
 ![Screenshot (341)](https://github.com/pavankumar1921/sport_news/assets/104848621/bfc8c0af-a780-440c-988e-00412f356b3a)
 ![Screenshot (343)](https://github.com/pavankumar1921/sport_news/assets/104848621/caf86d43-9a86-4c14-a344-a8c1980b14de)
