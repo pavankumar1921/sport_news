@@ -5,12 +5,14 @@ const MatchesStateContext = createContext<MatchesState | undefined>(undefined);
 
 type MatchesDispatch = React.Dispatch<MatchesActions>;
 
+const MatchesDispatchContext = createContext<MatchesDispatch | undefined>(
+  undefined
+);
+console.log(MatchesDispatchContext);
 
-const MatchesDispatchContext = createContext<MatchesDispatch | undefined>(undefined);
-console.log(MatchesDispatchContext)
-
-
-export const MatchesProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const MatchesProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (

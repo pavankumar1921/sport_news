@@ -39,7 +39,7 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-      <div>
+    <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
@@ -87,7 +87,7 @@ const SignupForm: React.FC = () => {
           Sign up
         </button>
       </form>
-      </div>
+    </div>
   );
 };
 

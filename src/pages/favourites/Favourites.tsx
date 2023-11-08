@@ -79,7 +79,7 @@ export default function Favourites() {
     if (selectedTeam != null) {
       fetchTeams(useTeamsDispatch);
     }
-  },[]);
+  }, []);
 
   useEffect(() => {
     const fetchPreferences = async () => {
@@ -128,9 +128,9 @@ export default function Favourites() {
         <div className="pr-2">
           <div className="flex flex-col">
             <div className="py-1">
-                <h2 className="font-medium">Favourites</h2>
+              <h2 className="font-medium">Favourites</h2>
             </div>
-            
+
             <div className="flex space-x-4">
               <select
                 name="sports"
@@ -141,15 +141,19 @@ export default function Favourites() {
                 className="p-2 border rounded-lg"
               >
                 <option value="">Select sport</option>
-                {sportsData.map((sport: any) => 
-                preferences.choice.some((item) => item.category === 'sports') &&
-                preferences.choice.some((item) => item.name === sport.name) 
-                &&
-                (
-                  <option key={sport.id} value={sport.id}>
-                    {sport.name}
-                  </option>
-                ))}
+                {sportsData.map(
+                  (sport: any) =>
+                    preferences.choice.some(
+                      (item) => item.category === "sports"
+                    ) &&
+                    preferences.choice.some(
+                      (item) => item.name === sport.name
+                    ) && (
+                      <option key={sport.id} value={sport.id}>
+                        {sport.name}
+                      </option>
+                    )
+                )}
               </select>
               {teamsData && (
                 <select
@@ -158,24 +162,29 @@ export default function Favourites() {
                   onChange={(e) =>
                     selectTeam(parseInt(e.target.value, 10) || null)
                   }
-                  className="p-2 border rounded-lg">
+                  className="p-2 border rounded-lg"
+                >
                   <option value="">Select team</option>
                   {teamsData
                     .filter(
                       (team) =>
                         selectedSport === null ||
                         sportsData.find((sport) => sport.id === selectedSport)
-                        ?.name === team.plays
+                          ?.name === team.plays
                     )
-                    .map((team: any) =>
-                    preferences.choice.some((item) => item.category === 'teams') &&
-                    preferences.choice.some((item) => item.name === team.name) 
-                    &&
-                    (
-                      <option key={team.id} value={team.id}>
-                        {team.name}
-                      </option>
-                    ))}
+                    .map(
+                      (team: any) =>
+                        preferences.choice.some(
+                          (item) => item.category === "teams"
+                        ) &&
+                        preferences.choice.some(
+                          (item) => item.name === team.name
+                        ) && (
+                          <option key={team.id} value={team.id}>
+                            {team.name}
+                          </option>
+                        )
+                    )}
                 </select>
               )}
             </div>
@@ -183,7 +192,10 @@ export default function Favourites() {
           <br />
           <div className="flex flex-col gap-3">
             {filteredArticles.map((article: any) => (
-              <div key={article.id} className="border rounded-lg bg-gray-100 shadow-lg p-4">
+              <div
+                key={article.id}
+                className="border rounded-lg bg-gray-100 shadow-lg p-4"
+              >
                 <h2 className="font-medium">{article.sport.name}</h2>
                 <h2>{article.title}</h2>
                 <p>{article.summary}</p>
@@ -241,7 +253,10 @@ export default function Favourites() {
           <br />
           <div className="flex flex-col gap-3">
             {filteredArticles.map((article: any) => (
-              <div key={article.id} className="border bg-gray-100 rounded-lg shadow-lg p-4">
+              <div
+                key={article.id}
+                className="border bg-gray-100 rounded-lg shadow-lg p-4"
+              >
                 <h2 className="font-bold">{article.sport.name}</h2>
                 <h2>{article.title}</h2>
                 <p>{article.summary}</p>

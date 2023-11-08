@@ -1,55 +1,66 @@
-import React,{useEffect,useState,Fragment} from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { API_ENDPOINT } from "../../config/constants";
 import { Dialog, Transition } from "@headlessui/react";
 
-interface completeArticleDetails{
-    id:number
-    title:string
-    summary:string
-    thumbnail:string 
-    sport: { id:number ; name:string}
-    date:string
-    content:string
+interface completeArticleDetails {
+  id: number;
+  title: string;
+  summary: string;
+  thumbnail: string;
+  sport: { id: number; name: string };
+  date: string;
+  content: string;
 }
 
-const ArticleDetails: React.FC<{id:number}>=({id}) =>{
-    const [ArticleData,setArticleData] = useState<completeArticleDetails|null>(null)
-    const [isOpen,setIsOpen] = useState(false)
+const ArticleDetails: React.FC<{ id: number }> = ({ id }) => {
+  const [ArticleData, setArticleData] = useState<completeArticleDetails | null>(
+    null
+  );
+  const [isOpen, setIsOpen] = useState(false);
 
-    const fetchCompleteArticle = async() =>{
-        const token = localStorage.getItem("authToken");
+  const fetchCompleteArticle = async () => {
+    const token = localStorage.getItem("authToken");
     try {
       const response = await fetch(`${API_ENDPOINT}/articles/${id}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${token}` },
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
-      if(!response.ok){
-        throw new Error("Cannot fetch article details")
+      if (!response.ok) {
+        throw new Error("Cannot fetch article details");
       }
       const data = await response.json();
-      setArticleData(data)
+      setArticleData(data);
     } catch (error) {
-      console.log('Error fetching articles',error);
+      console.log("Error fetching articles", error);
     }
-}
+  };
 
-    const openModal= () =>{
-        setIsOpen(true)
-    }
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
-    const closeModal = () =>{
-        setIsOpen(false)
-    }
-    useEffect(()=>{
-        fetchCompleteArticle()
-    },[id])
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  useEffect(() => {
+    fetchCompleteArticle();
+  }, [id]);
 
-    return (
-        <>
-        <div>
-            <button className="text-blue-400 hover:text-blue-600 hover:underline" type="button" onClick={openModal}>More Details</button>
-        </div>
-        <div>
+  return (
+    <>
+      <div>
+        <button
+          className="text-blue-600 hover:text-blue-800 hover:underline"
+          type="button"
+          onClick={openModal}
+        >
+          More Details
+        </button>
+      </div>
+      <div>
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -109,13 +120,29 @@ const ArticleDetails: React.FC<{id:number}>=({id}) =>{
                       >
                         {ArticleData.title}
                       </Dialog.Title>
-                      <h1 className="text-gray-900 text-bold py-2">{ArticleData.sport.name}</h1>
-                      <div className="flex gap-4 py-2"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
-                          </svg>
-                          <h2>{new Date(ArticleData.date).toLocaleDateString()}</h2>
-                        </div>
-                      
+                      <h1 className="text-gray-900 text-bold py-2">
+                        {ArticleData.sport.name}
+                      </h1>
+                      <div className="flex gap-4 py-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
+                          />
+                        </svg>
+                        <h2>
+                          {new Date(ArticleData.date).toLocaleDateString()}
+                        </h2>
+                      </div>
+
                       <div className="w-1/2 py-2">
                         <img
                           src={ArticleData.thumbnail}
@@ -131,10 +158,8 @@ const ArticleDetails: React.FC<{id:number}>=({id}) =>{
           </Dialog>
         </Transition>
       </div>
-        </>
-        
-        
-    )
-}
+    </>
+  );
+};
 
-export default ArticleDetails
+export default ArticleDetails;

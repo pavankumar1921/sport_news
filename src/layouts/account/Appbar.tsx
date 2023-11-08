@@ -1,40 +1,41 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react';
-import { Fragment, useContext } from 'react';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { UserCircleIcon } from '@heroicons/react/24/outline';
+import React, { useEffect, useState } from "react";
+import { Fragment, useContext } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
-import Logo from "../../assets/images/Logo.jpeg"
-import Preferences from '../../pages/preferences/Preferences';
-import UpdatePassword from '../../pages/updatePassword/UpdatePassword';
+import Logo from "../../assets/images/Logo.jpeg";
+import Preferences from "../../pages/preferences/Preferences";
+import UpdatePassword from "../../pages/updatePassword/UpdatePassword";
 
 const loggedInUser = [
-  { name: 'Sign out', href: '/logout' },
-  { name: 'Update Password', href: '/updatePassword'}
+  { name: "Sign out", href: "/logout" },
+  { name: "Update Password", href: "/updatePassword" },
 ];
 
 const guestUser = [
-  { name: 'Sign up' , href: '/users'},
-  { name: 'Sign in' , href: '/users/sign_in'}
-]
+  { name: "Sign up", href: "/users" },
+  { name: "Sign in", href: "/users/sign_in" },
+];
 
-type User = string | null
+type User = string | null;
 
-const classNames = (...classes: string[]): string => classes.filter(Boolean).join(' ');
+const classNames = (...classes: string[]): string =>
+  classes.filter(Boolean).join(" ");
 
 const Appbar = () => {
-  const authToken: User = localStorage.getItem("authToken")
-  const [user,setUser] = useState<User>(null)
+  const authToken: User = localStorage.getItem("authToken");
+  const [user, setUser] = useState<User>(null);
 
-  useEffect(()=>{
-    if(authToken){
-      setUser(authToken)
-    }else{
-      setUser(null)
+  useEffect(() => {
+    if (authToken) {
+      setUser(authToken);
+    } else {
+      setUser(null);
     }
-  },[authToken])
+  }, [authToken]);
 
-  const userHandler = user ? loggedInUser : guestUser
+  const userHandler = user ? loggedInUser : guestUser;
   const { pathname } = useLocation();
 
   return (
@@ -53,15 +54,20 @@ const Appbar = () => {
                 </div>
               </div>
               <div className="hidden md:block flex items-center justify-center">
-                <h1 className="text-2xl font-bold text-gray-800">Sports News</h1>
-                </div>
+                <h1 className="text-2xl font-bold text-gray-800">
+                  Sports News
+                </h1>
+              </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <Menu as="div" className="relative ml-3">
-                    <div className='space-x-4 flex'>
-                      <div>{user && <Preferences/>}</div>
+                    <div className="space-x-4 flex">
+                      <div>{user && <Preferences />}</div>
                       <Menu.Button className="rounded-full bg-gray-200 p-1 text-black hover:text-sky-600">
-                        <UserCircleIcon className="h-6 w-6" aria-hidden="true" />
+                        <UserCircleIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
                       </Menu.Button>
                     </div>
 
@@ -79,12 +85,12 @@ const Appbar = () => {
                           <Menu.Item key={item.name}>
                             {({ active }) => (
                               <a
-                              href={item.href}
-                              className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
-                              )}
-                            >
+                                href={item.href}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
                                 {item.name}
                               </a>
                             )}
