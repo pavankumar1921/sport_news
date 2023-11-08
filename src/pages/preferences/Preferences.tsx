@@ -160,7 +160,7 @@ const Preferences = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full bg-gray-100 max-w-md transform overflow-hidden bg-white text-white p-6 text-left align-middle shadow-xl transition-all rounded-lg">
+                <Dialog.Panel className="w-full bg-gray-100 max-w-md transform overflow-hidden text-white p-6 text-left align-middle shadow-xl transition-all rounded-lg">
                   <Dialog.Title
                     as="h3"
                     className="text-xl font-bold text-black leading-6 text-black p-2 text-center"
