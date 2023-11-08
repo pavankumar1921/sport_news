@@ -23,5 +23,6 @@
 ![Screenshot (342)](https://github.com/pavankumar1921/sport_news/assets/104848621/eedde575-5d3a-4e53-8baa-e8a8cc47f7f0)
 
 ## Live Application URL
+https://livesportsnews.netlify.app/
 
 ## Demo Video
