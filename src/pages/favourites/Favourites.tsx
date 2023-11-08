@@ -125,7 +125,7 @@ export default function Favourites() {
   return (
     <>
       {user && preferences.choice && preferences.choice.length > 0 ? (
-        <div>
+        <div className="pr-2">
           <div className="flex flex-col">
             <div className="py-1">
                 <h2 className="font-medium">Favourites</h2>
@@ -184,7 +184,7 @@ export default function Favourites() {
           <div className="flex flex-col gap-3">
             {filteredArticles.map((article: any) => (
               <div key={article.id} className="border rounded-lg bg-gray-100 shadow-lg p-4">
-                <h2>{article.sport.name}</h2>
+                <h2 className="font-medium">{article.sport.name}</h2>
                 <h2>{article.title}</h2>
                 <p>{article.summary}</p>
                 <div>{fullArticleDetails(article.id)}</div>
@@ -193,8 +193,8 @@ export default function Favourites() {
           </div>
         </div>
       ) : (
-        <div>
-          <div className="flex flex-col">
+        <div className="pr-2">
+          <div className="flex flex-col pr-2">
             <p>Favourites</p>
             <div className="flex space-x-4">
               <select
@@ -241,8 +241,8 @@ export default function Favourites() {
           <br />
           <div className="flex flex-col gap-3">
             {filteredArticles.map((article: any) => (
-              <div key={article.id} className="border rounded-lg shadow-lg p-4">
-                <h2>{article.sport.name}</h2>
+              <div key={article.id} className="border bg-gray-100 rounded-lg shadow-lg p-4">
+                <h2 className="font-bold">{article.sport.name}</h2>
                 <h2>{article.title}</h2>
                 <p>{article.summary}</p>
                 <div>{fullArticleDetails(article.id)}</div>

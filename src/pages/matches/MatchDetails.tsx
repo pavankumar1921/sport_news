@@ -64,7 +64,7 @@ const MatchDetails: React.FC<{id:number}> = ({id}) =>{
           <ul>
             {Object.keys(matchData.score).map((teamName) => (
               <li key={teamName}>
-                <span className="font-medium">{teamName}:</span>{matchData.score[teamName]}
+                <span className="font-medium pr-1">{teamName}:</span>{matchData.score[teamName]}
               </li>
             ))}
           </ul>
@@ -77,7 +77,7 @@ const MatchDetails: React.FC<{id:number}> = ({id}) =>{
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className={`w-6 h-6 ${isFetching ? 'animate-spin' : ''} `}
+            className={`w-6 h-6 text-teal-600 ${isFetching ? 'animate-spin' : ''} `}
           >
             <path
               strokeLinecap="round"
