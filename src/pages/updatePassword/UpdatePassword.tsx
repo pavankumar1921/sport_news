@@ -15,7 +15,6 @@ const UpdatePassword: React.FC = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const { current_password, new_password } = data;
     const authToken = localStorage.getItem('authToken');
-
     try {
       const response = await fetch(`${API_ENDPOINT}/user/password`, {
         method: 'PATCH',
@@ -25,13 +24,10 @@ const UpdatePassword: React.FC = () => {
         },
         body: JSON.stringify({ current_password, new_password })
       });
-
       if (!response.ok) {
+        alert("You have entered incorrect password")
         throw new Error('Password update failed');
       }
-
-      const responseData = await response.json();
-      console.log('Password updated successfully:', responseData);
       navigate('/homepage');
     } catch (error) {
       console.error('Password update failed:', error);
@@ -39,7 +35,7 @@ const UpdatePassword: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto my-10 p-6 bg-white rounded-md shadow-md">
+    <div className="max-w-md mx-auto my-10 p-6 bg-gray-100 rounded-md shadow-md">
       <h1 className="text-2xl font-semibold mb-4">Update Password</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>

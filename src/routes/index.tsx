@@ -10,44 +10,43 @@ import Logout from "../pages/logout";
 import NotFound from "../pages/NotFound";
 import UpdatePassword from "../pages/updatePassword/UpdatePassword";
 
-
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <FirstPage/>
-    },
-    {
-        path: "/users",
-        element: <Signup/>
-    },
-    {
-        path:"/users/sign_in/",
-        element: <Signin/>
-    },
-    {
-        path: "updatePassword",
-        element: <UpdatePassword/>
-    },
-    {
-    path:"*",
-    element:<NotFound/>
-    },
-    {
-        path:"/homepage",
-        element: <HomePage/>
-    },
-    {
-        path:"/logout",
-        element: <Logout/>
-    },
-    {
-        path:"account",
-        element:(
-            <ProtectedRoute>
-                <AccountLayout/>
-            </ProtectedRoute>
-        )
-    }
-])
+  {
+    path: "/",
+    element: <FirstPage />,
+  },
+  {
+    path: "/users",
+    element: <Signup />,
+  },
+  {
+    path: "/users/sign_in/",
+    element: <Signin />,
+  },
+  {
+    path: "updatePassword",
+    element: <UpdatePassword />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
+  {
+    path: "/homepage",
+    element: <HomePage />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
+  },
+  {
+    path: "account",
+    element: (
+      <ProtectedRoute>
+        <AccountLayout />
+      </ProtectedRoute>
+    ),
+  },
+]);
 
-export default router
+export default router;

@@ -1,11 +1,15 @@
-import { Navigate,useLocation } from "react-router-dom"
+import { Navigate, useLocation } from "react-router-dom";
 import React from "react";
 
-export default function ProtectedRoute({ children }: { children: JSX.Element }) {
-  const {pathname} = useLocation()
+export default function ProtectedRoute({
+  children,
+}: {
+  children: JSX.Element;
+}) {
+  const { pathname } = useLocation();
   const authenticated = !!localStorage.getItem("authToken");
-  if (authenticated ) {
+  if (authenticated) {
     return <>{children}</>;
-  } 
-  return <Navigate to="#" replace state = {{  referrer: pathname}}/>;
+  }
+  return <Navigate to="#" replace state={{ referrer: pathname }} />;
 }

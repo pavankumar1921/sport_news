@@ -5,7 +5,7 @@ import React from "react";
 import { MatchesProvider } from "./context/matches/context";
 import { ArticlesProvider } from "./context/articles/context";
 
-const App = () =>{
+const App = () => {
   return (
     <div>
       <MatchesProvider>
@@ -14,6 +14,6 @@ const App = () =>{
         </ArticlesProvider>
       </MatchesProvider>
     </div>
-  )
-}
-export default App
+  );
+};
+export default App;

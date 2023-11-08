@@ -60,11 +60,11 @@ const MatchDetails: React.FC<{id:number}> = ({id}) =>{
   return(
     <>
       {matchData &&  (
-        <div>
+        <div className="pb-1">
           <ul>
             {Object.keys(matchData.score).map((teamName) => (
               <li key={teamName}>
-                {teamName}: {matchData.score[teamName]}
+                <span className="font-medium">{teamName}:</span>{matchData.score[teamName]}
               </li>
             ))}
           </ul>
